@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>LinguaSchool</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+<div class="container">
+<span class="navbar-brand">LinguaSchool</span>
+<div>
+<a href="#courses" class="btn btn-outline-light btn-sm">Курсы</a>
+<a href="#tutors" class="btn btn-outline-light btn-sm">Репетиторы</a>
+<a href="cabinet.html" class="btn btn-warning btn-sm">Личный кабинет</a>
+</div>
+</div>
+</nav>
+
+<div class="container my-4">
+<div id="alerts"></div>
+
+<section class="mb-4">
+<h1>Изучение языков нового уровня</h1>
+<p>Лучшие курсы и репетиторы — онлайн</p>
+</section>
+
+<section id="courses">
+<h3>Курсы</h3>
+<input class="form-control mb-2" id="courseSearch" placeholder="Поиск по названию">
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Название</th>
+<th>Уровень</th>
+<th>Преподаватель</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="coursesTable"></tbody>
+</table>
+<ul class="pagination justify-content-center mt-3"
+    id="coursePagination"></ul>
+</section>
+
+<section id="tutors" class="mt-5">
+<h3>Репетиторы</h3>
+<select class="form-select mb-2" id="levelFilter">
+<option value="">Любой уровень</option>
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Advanced</option>
+</select>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Имя</th>
+<th>Уровень</th>
+<th>Опыт</th>
+<th>Цена ₽/час</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="tutorsTable"></tbody>
+</table>
+</section>
+</div>
+
+<!-- Окно выбора курса -->
+<div class="modal fade" id="courseOrderModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Оформление заявки</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="courseOrderForm">
+
+          <!-- Название курса -->
+          <div class="mb-2">
+            <label class="form-label">Курс</label>
+            <input class="form-control" id="courseName" disabled>
+          </div>
+
+          <!-- Преподаватель -->
+          <div class="mb-2">
+            <label class="form-label">Преподаватель</label>
+            <input class="form-control" id="courseTeacher" disabled>
+          </div>
+
+          <!-- Дата -->
+          <div class="mb-2">
+            <label class="form-label">Дата начала</label>
+            <select class="form-select" id="startDate"></select>
+          </div>
+
+          <!-- Время -->
+          <div class="mb-2">
+            <label class="form-label">Время занятий</label>
+            <select class="form-select" id="startTime" disabled></select>
+          </div>
+
+          <!-- Продолжительность -->
+          <div class="mb-2">
+            <label class="form-label">Продолжительность</label>
+            <input class="form-control" id="durationInfo" disabled>
+          </div>
+
+          <!-- Количество студентов -->
+          <div class="mb-2">
+            <label class="form-label">Количество студентов</label>
+            <input type="number" id="persons" class="form-control" min="1" max="20" value="1">
+          </div>
+
+          <!-- Опции -->
+          <div class="mb-2">
+            <label class="form-label">Дополнительные опции</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="supplementary">
+              <label class="form-check-label">Дополнительные материалы</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="personalized">
+              <label class="form-check-label">Индивидуальные занятия</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="excursions">
+              <label class="form-check-label">Культурные экскурсии</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="interactive">
+              <label class="form-check-label">Онлайн-платформа</label>
+            </div>
+          </div>
+
+          <!-- Цена -->
+          <div class="mb-3">
+            <label class="form-label">Общая стоимость</label>
+            <input class="form-control fw-bold" id="totalPrice" disabled>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        <button class="btn btn-success" id="submitOrder">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Окно выбора репетитора -->
+ <div class="modal fade" id="tutorOrderModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Запрос сеанса репетиторства</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="tutorOrderForm">
+
+          <div class="row">
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Имя</label>
+              <input class="form-control" id="tutorName" disabled>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Уровень</label>
+              <input class="form-control" id="tutorLevel" disabled>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Языки</label>
+            <input class="form-control" id="tutorLanguages" disabled>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-2">
+              <label class="form-label">Опыт (лет)</label>
+              <input class="form-control" id="tutorExperience" disabled>
+            </div>
+            <div class="col-md-4 mb-2">
+              <label class="form-label">Цена / час</label>
+              <input class="form-control" id="tutorPrice" disabled>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row">
+            <div class="col-md-4 mb-2">
+              <label class="form-label">Дата</label>
+              <input type="date" class="form-control" id="tutorDate">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label class="form-label">Время</label>
+              <input type="time" class="form-control" id="tutorTime">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label class="form-label">Длительность (часов)</label>
+              <input type="number" min="1" max="40"
+                     class="form-control" id="tutorDuration" value="1">
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Количество студентов</label>
+            <input type="number" min="1" max="20"
+                   class="form-control" id="tutorPersons" value="1">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Общая стоимость</label>
+            <input class="form-control fw-bold" id="tutorTotalPrice" disabled>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        <button class="btn btn-primary" id="submitTutorOrder">Отправить</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
