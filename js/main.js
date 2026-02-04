@@ -16,7 +16,10 @@ apiRequest("/courses").then(data => {
     renderCourses();
 });
 
+let allTutors = [];
+
 apiRequest("/tutors").then(data => {
+    allTutors = data;
     tutors = data;
     renderTutors();
 });
@@ -221,6 +224,31 @@ function renderTutors() {
             </td>
         </tr>`;
     });
+}
+
+const levelSelect = document.getElementById("levelFilter");
+const expInput = document.getElementById("experienceFilter");
+
+levelSelect.addEventListener("change", applyTutorFilters);
+expInput.addEventListener("input", applyTutorFilters);
+
+function applyTutorFilters() {
+    const level = levelSelect.value;
+    const minExp = expInput.value
+        ? parseInt(expInput.value)
+        : 0;
+
+    tutors = allTutors.filter(tutor => {
+        const levelMatch =
+            !level || tutor.language_level === level;
+
+        const expMatch =
+            tutor.work_experience >= minExp;
+
+        return levelMatch && expMatch;
+    });
+
+    renderTutors();
 }
 
 let selectedTutor = null;
