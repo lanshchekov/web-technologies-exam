@@ -42,7 +42,7 @@ function renderCourses() {
           <td>${course.level}</td>
           <td>${course.teacher}</td>
           <td>
-            <button class="btn btn-success btn-sm"
+            <button class="btn btn-outline-primary btn-sm"
               onclick="openCourseOrder(${course.id})">
               Подать заявку
             </button>
@@ -217,7 +217,7 @@ function renderTutors() {
             <td>${t.work_experience}</td>
             <td>${t.price_per_hour}</td>
             <td>
-            <button class="btn btn-primary btn-sm"
+            <button class="btn btn-outline-primary btn-sm"
                 onclick="openTutorOrder(${t.id})">
                 Выбрать
             </button>
